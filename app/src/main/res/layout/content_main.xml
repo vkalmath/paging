@@ -24,6 +24,7 @@
             app:layout_constraintTop_toBottomOf="@+id/movies_rv"
             android:layout_height="wrap_content" android:id="@+id/error_tv"
             android:textColor="#E91E63"
+            android:visibility="gone"
             android:textSize="18sp" android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -32,6 +33,7 @@
                  android:layout_height="wrap_content"
                  app:layout_constraintStart_toStartOf="parent"
                  app:layout_constraintEnd_toEndOf="parent"
+                 android:visibility="gone"
                  android:id="@+id/loading_progress"
                  app:layout_constraintBottom_toBottomOf="parent"/>
 
