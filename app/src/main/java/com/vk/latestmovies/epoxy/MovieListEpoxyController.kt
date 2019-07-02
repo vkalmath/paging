@@ -11,7 +11,29 @@ import com.vk.latestmovies.service.Movie
 class MovieListEpoxyController : PagedListEpoxyController<Movie>() {
 
     private var isError: Boolean = false
-    private var error: String? = ""
+
+    var error: String? = ""
+        set(value) {
+            field = value?.let {
+                isError = true
+                it
+            } ?: run {
+                isError = false
+                null
+            }
+            if (isError) {
+                requestModelBuild()
+            }
+        }
+
+    var isLoading = false
+        set(value) {
+            field = value
+            if (field) {
+                requestModelBuild()
+            }
+        }
+
 
     /**
      * Create the EpoxyViewModels
@@ -45,6 +67,14 @@ class MovieListEpoxyController : PagedListEpoxyController<Movie>() {
                         .errorStr(error)
                 ).filter { !(it is LoadingEpoxyModel_) }
             )
+        } else if (isLoading) {
+            super.addModels(
+                models.plus(
+                    //Error View Model
+                    LoadingEpoxyModel_()
+                        .id("loading")
+                ).distinct()
+            )
         } else {
             super.addModels(models.distinct())
         }
@@ -52,21 +82,5 @@ class MovieListEpoxyController : PagedListEpoxyController<Movie>() {
 
     override fun onExceptionSwallowed(exception: RuntimeException) {
 
-    }
-
-    /**
-     * Call this api to set Error
-     */
-    fun setError(text: String?) {
-        isError = text?.let {
-            error = it
-            true
-        } ?: run {
-            error = ""
-            false
-        }
-        if (isError) {
-            requestModelBuild()
-        }
     }
 }
