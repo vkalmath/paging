@@ -47,15 +47,19 @@ class LatestMoviesActivity : AppCompatActivity() {
             apiState?.let {
                 when (it) {
                     ApiState.Loading -> {
+                        //removes error view from List
                         pagedListController.setError(null)
                     }
 
                     ApiState.Success -> {
+                        //removes Error view
                         pagedListController.setError(null)
                     }
 
                     is ApiState.Error -> {
-                        pagedListController.setError(it.error.localizedMessage)
+                        //sets Error view from list
+                        pagedListController
+                            .setError(it.error.localizedMessage)
                     }
 
                 }

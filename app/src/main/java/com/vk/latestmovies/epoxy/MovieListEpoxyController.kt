@@ -13,8 +13,12 @@ class MovieListEpoxyController : PagedListEpoxyController<Movie>() {
     private var isError: Boolean = false
     private var error: String? = ""
 
+    /**
+     * Create the EpoxyViewModels
+     */
     override fun buildItemModel(currentPosition: Int, item: Movie?): EpoxyModel<*> {
         item?.let {
+            //Movie Item View Model
             return MovieItemModel_()
                 .id("movie${currentPosition}")
                 .title(item.title ?: "Unknown")
@@ -22,15 +26,20 @@ class MovieListEpoxyController : PagedListEpoxyController<Movie>() {
                 .thumbnailUrl("http://image.tmdb.org/t/p/w185/${item.posterPath}")
 
         } ?: run {
+            //Loading View Model
             return LoadingEpoxyModel_()
                 .id("loading")
         }
     }
 
+    /**
+     * Adding models
+     */
     override fun addModels(models: List<EpoxyModel<*>>) {
         if (isError) {
             super.addModels(
                 models.plus(
+                    //Error View Model
                     ErrorEpoxyModel_()
                         .id("Error")
                         .errorStr(error)
@@ -45,6 +54,9 @@ class MovieListEpoxyController : PagedListEpoxyController<Movie>() {
 
     }
 
+    /**
+     * Call this api to set Error
+     */
     fun setError(text: String?) {
         isError = text?.let {
             error = it

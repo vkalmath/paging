@@ -27,7 +27,7 @@ class MoviesDataSource(val service: TMDBApi, val compositeDisposable: CompositeD
     val networkStatusLiveData: MutableLiveData<ApiState> = MutableLiveData()
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Movie>) {
-
+        networkStatusLiveData.postValue(ApiState.Loading)
         compositeDisposable.add(
             service.getTopRatedMovies(page = 1)
                 .subscribeOn(Schedulers.io())
@@ -62,7 +62,7 @@ class MoviesDataSource(val service: TMDBApi, val compositeDisposable: CompositeD
 
                     override fun onNext(response: Response) {
                         //after 2 pages we are making it throw and exception to show how error is handled
-                        if (params.key > 2) {
+                        if (params.key > 5) {
                             throw Exception("Something Terrible with Api")
                         } else {
                             callback.onResult(response.movies!!, (response.page)?.plus(1))
@@ -94,6 +94,4 @@ class MovieDatasourceFactory(val service: TMDBApi, val compositeDisposable: Comp
     }
 
     fun getNetworkStatusLiveData(): MutableLiveData<ApiState> = movieDataSource.networkStatusLiveData
-
-    fun getDisposable() = compositeDisposable
 }
