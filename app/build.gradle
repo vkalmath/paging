@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -46,8 +48,14 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
 
     implementation 'com.google.code.gson:gson:2.8.5'
-
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+
+    //Epoxy
+    implementation 'com.airbnb.android:epoxy:3.6.0'
+    // Add the annotation processor if you are using Epoxy's annotations (recommended)
+    kapt 'com.airbnb.android:epoxy-processor:3.6.0'
+    implementation 'com.airbnb.android:epoxy-paging:3.6.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
 
 }
